@@ -2,7 +2,7 @@
 
 ## Project Overview
 
-This project demonstrates how to interface a Push Button with an Arduino Uno. The Arduino continuously monitors the button state and prints whether the button is pressed or released on the Serial Monitor.
+This project demonstrates how to interface a Push Button with an Arduino Uno. The push button acts as a digital input device. The Arduino continuously reads the button state and displays the corresponding value on the Serial Monitor.
 
 ---
 
@@ -10,26 +10,30 @@ This project demonstrates how to interface a Push Button with an Arduino Uno. Th
 
 - Arduino Uno
 - Push Button
-- 10kΩ Resistor
-- Breadboard
 - Jumper Wires
 - USB Cable
+
+> **Note:** This project uses the Arduino's internal pull-up resistor (`INPUT_PULLUP`), so no external resistor is required.
 
 ---
 
 ## Circuit Connections
 
-| Push Button Pin | Arduino Uno |
-|-----------------|-------------|
-| One Terminal    | Digital Pin 2 |
-| Other Terminal  | 5V |
-| 10kΩ Resistor   | Between Digital Pin 2 and GND |
+| Push Button | Arduino Uno |
+|-------------|-------------|
+| One Terminal | Digital Pin 2 |
+| Other Terminal | GND |
 
 ---
 
 ## Working Principle
 
-A push button is a momentary switch. When the button is pressed, it completes the circuit and sends a HIGH signal to the Arduino. When released, the pull-down resistor keeps the input LOW. The Arduino reads the button state and displays the result on the Serial Monitor.
+The push button is connected between Digital Pin 2 and GND. The Arduino enables its internal pull-up resistor using `INPUT_PULLUP`.
+
+- Button Released → Pin reads **HIGH (1)**
+- Button Pressed → Pin reads **LOW (0)**
+
+The button state is displayed on the Serial Monitor.
 
 ---
 
@@ -39,19 +43,13 @@ A push button is a momentary switch. When the button is pressed, it completes th
 const int buttonPin = 2;
 
 void setup() {
-  pinMode(buttonPin, INPUT);
+  pinMode(buttonPin, INPUT_PULLUP);
   Serial.begin(9600);
 }
 
 void loop() {
   int buttonState = digitalRead(buttonPin);
-
-  if (buttonState == HIGH) {
-    Serial.println("Button Pressed");
-  } else {
-    Serial.println("Button Released");
-  }
-
+  Serial.println(buttonState);
   delay(200);
 }
 ```
@@ -60,28 +58,32 @@ void loop() {
 
 ## Output
 
-When the button is pressed:
+Serial Monitor:
 
 ```
-Button Pressed
+1
+1
+1
+0
+0
+1
+1
 ```
 
-When the button is released:
-
-```
-Button Released
-```
+**Where:**
+- **1** = Button Released
+- **0** = Button Pressed
 
 ---
 
 ## Applications
 
-- User Input Interface
-- Home Automation Systems
+- Menu Selection
+- User Input Systems
+- Home Automation Controls
+- Robotics
 - Industrial Control Panels
-- Menu Navigation
-- Start/Stop Controls
-- Robotics Projects
+- Start/Stop Switches
 
 ---
 
